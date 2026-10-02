@@ -1,0 +1,8 @@
+task=triage model=qwen3.6:35b retrieval=on cases=30 completed=29 acc=1.0000 refer_safe=1.0000 flagged=8 mean_steps=2.37
+task=evidence model=qwen3.6:35b retrieval=on cases=24 completed=21 acc=0.9048 evidence_provided=1.0000 grounded_correct=0.9048 mean_steps=2.17
+task=triage model=glm-4.7-flash:q8_0 retrieval=on cases=20 completed=20 acc=0.9000 refer_safe=1.0000 flagged=4 mean_steps=2.45
+task=triage model=gemma4:31b retrieval=on cases=5 completed=5 acc=1.0000 refer_safe=1.0000 flagged=0 mean_steps=3.20
+task=triage model=gemma4:31b retrieval=on cases=570 completed=499 acc=0.8697 refer_safe=1.0000 flagged=5 mean_steps=3.33
+task=evidence model=gemma4:31b retrieval=on cases=570 completed=548 acc=0.9398 evidence_provided=0.9982 grounded_correct=0.9398 mean_steps=3.04
+task=triage model=qwen3.8:27b retrieval=on cases=570 completed=511 acc=0.9667 refer_safe=1.0000 flagged=124 mean_steps=3.00
+task=evidence model=qwen3.8:27b retrieval=on cases=570 completed=473 acc=0.9958 evidence_provided=1.0000 grounded_correct=0.9958 mean_steps=2.00

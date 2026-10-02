@@ -1,0 +1,20 @@
+{
+  "id_cohort": "bracs-test",
+  "n_id": 570,
+  "ood": {
+    "bach": {
+      "n": 400,
+      "mi_mean": 0.3571,
+      "conf_mean": 0.7494,
+      "ood_auroc_mi": 0.8122,
+      "ood_auroc_conf": 0.7936
+    },
+    "breakhis": {
+      "n": 7909,
+      "mi_mean": 0.2628,
+      "conf_mean": 0.7873,
+      "ood_auroc_mi": 0.7463,
+      "ood_auroc_conf": 0.7478
+    }
+  }
+}

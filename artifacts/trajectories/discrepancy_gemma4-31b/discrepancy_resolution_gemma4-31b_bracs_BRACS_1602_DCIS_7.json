@@ -1,0 +1,280 @@
+{
+  "task_name": "discrepancy_resolution",
+  "model_name": "gemma4:31b",
+  "case_id": "bracs_BRACS_1602_DCIS_7",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "malignant",
+    "confidence": 0.99,
+    "rationale": "The MoE classifier predicted 'malignant' with extremely high confidence (>99%). While the retrieval channel reportedly predicted 'benign', the actual top-k neighbors are predominantly malignant (DCIS) or atypical, contradicting the reported retrieval prediction and supporting the classifier.",
+    "evidence_image_ids": [
+      "bracs_BRACS_1484_DCIS_25",
+      "bracs_BRACS_1487_DCIS_4"
+    ],
+    "flag_for_review": false,
+    "dominant_expert": null,
+    "trust_source": "classifier",
+    "_eval_breakdown": {
+      "predicted": "malignant",
+      "gold_label": "malignant",
+      "label_correct": true,
+      "trust_source": "classifier",
+      "gold_correct_source": "classifier",
+      "source_correct": true,
+      "flagged": false
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_1602_DCIS_7",
+    "label": "malignant",
+    "classifier_prediction": "malignant",
+    "retrieval_prediction": "benign"
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "discrepancy_resolution",
+    "model_name": "gemma4:31b",
+    "case_id": "bracs_BRACS_1602_DCIS_7",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a discrepancy-resolution agent for a pathology workflow. You will be told what the MoE classifier predicted AND what the retrieval channel predicted for the same case -- and these will disagree. Your job is to pick which one to trust and submit a final unified label, or flag the case for human review when neither source is credible.\n\nProcedure:\n  1. Optionally call get_case_metadata, predict_case (to inspect gate weights), and retrieve_neighbors (to inspect neighbor labels) to ground your judgement.\n  2. Call report_decision with:\n       - decision: final unified label (benign / atypical / malignant) -- use exactly one of these tokens, verbatim\n       - confidence\n       - trust_source: 'classifier', 'retrieval', or 'neither' (if you set 'neither', also set flag_for_review=true)\n       - rationale: 1-3 sentences justifying which source you trusted and why.\n       - evidence_image_ids: neighbor ids that supported your decision, if any.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T13:46:50+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Case image_id=bracs_BRACS_1602_DCIS_7 from cohort=bracs. The MoE classifier predicted 'malignant' while the retrieval channel predicted 'benign'. Decide which source to trust and submit your final label.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T13:46:50+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_j1ciwj3a",
+            "name": "get_case_metadata",
+            "arguments": {
+              "image_id": "bracs_BRACS_1602_DCIS_7"
+            }
+          },
+          {
+            "call_id": "call_qtluwslu",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_1602_DCIS_7"
+            }
+          },
+          {
+            "call_id": "call_1qzjft0k",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_1602_DCIS_7",
+              "top_k": 5
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T13:47:03+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"metadata\": {\"image_path\": \"<BRACS_ROOT>\\\\BRACS_RoI\\\\latest_version\\\\test\\\\5_DCIS\\\\BRACS_1602_DCIS_7.png\", \"image_id\": \"bracs_BRACS_1602_DCIS_7\", \"patient_id\": \"bracs_1602\", \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"magnification\": \"unknown\", \"cohort\": \"bracs\", \"split\": \"test\", \"row_idx\": 378}}",
+        "tool_calls": null,
+        "tool_call_id": "call_j1ciwj3a",
+        "name": "get_case_metadata",
+        "created_at": "2026-09-19T13:47:03+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1602_DCIS_7\", \"predicted_class_index\": 2, \"class_probabilities\": [2.424384716718217e-09, 5.750201103748855e-07, 0.9999994225555048], \"gate_weights\": [0.0, 1.0, 2.09845740783976e-09], \"chosen_experts\": [1, 2], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_qtluwslu",
+        "name": "predict_case",
+        "created_at": "2026-09-19T13:47:04+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1602_DCIS_7\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_1484_DCIS_25\", \"score\": 0.7111712098121643, \"rank\": 1, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1487_ADH_35\", \"score\": 0.6864243745803833, \"rank\": 2, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1487_DCIS_4\", \"score\": 0.6562827825546265, \"rank\": 3, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1484_ADH_10\", \"score\": 0.6475515365600586, \"rank\": 4, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1497_UDH_20\", \"score\": 0.6473543047904968, \"rank\": 5, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_1qzjft0k",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T13:47:04+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_su65oik0",
+            "name": "report_decision",
+            "arguments": {
+              "confidence": 0.99,
+              "decision": "malignant",
+              "evidence_image_ids": [
+                "bracs_BRACS_1484_DCIS_25",
+                "bracs_BRACS_1487_DCIS_4"
+              ],
+              "flag_for_review": false,
+              "rationale": "The MoE classifier predicted 'malignant' with extremely high confidence (>99%). While the retrieval channel reportedly predicted 'benign', the actual top-k neighbors are predominantly malignant (DCIS) or atypical, contradicting the reported retrieval prediction and supporting the classifier.",
+              "trust_source": "classifier"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T13:47:25+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"malignant\", \"confidence\": 0.99, \"rationale\": \"The MoE classifier predicted 'malignant' with extremely high confidence (>99%). While the retrieval channel reportedly predicted 'benign', the actual top-k neighbors are predominantly malignant (DCIS) or atypical, contradicting the reported retrieval prediction and supporting the classifier.\", \"evidence_image_ids\": [\"bracs_BRACS_1484_DCIS_25\", \"bracs_BRACS_1487_DCIS_4\"], \"flag_for_review\": false, \"dominant_expert\": null, \"trust_source\": \"classifier\", \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_su65oik0",
+        "name": "report_decision",
+        "created_at": "2026-09-19T13:47:25+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_j1ciwj3a",
+        "name": "get_case_metadata",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "metadata": {
+            "image_path": "<BRACS_ROOT>\\BRACS_RoI\\latest_version\\test\\5_DCIS\\BRACS_1602_DCIS_7.png",
+            "image_id": "bracs_BRACS_1602_DCIS_7",
+            "patient_id": "bracs_1602",
+            "label": "dcis",
+            "subtype": "ductal_carcinoma_in_situ",
+            "magnification": "unknown",
+            "cohort": "bracs",
+            "split": "test",
+            "row_idx": 378
+          }
+        },
+        "error": null,
+        "latency_ms": 11.066199978813529
+      },
+      {
+        "call_id": "call_qtluwslu",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1602_DCIS_7",
+          "predicted_class_index": 2,
+          "class_probabilities": [
+            2.424384716718217e-9,
+            5.750201103748855e-7,
+            0.9999994225555048
+          ],
+          "gate_weights": [
+            0.0,
+            1.0,
+            2.09845740783976e-9
+          ],
+          "chosen_experts": [
+            1,
+            2
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 326.344600005541
+      },
+      {
+        "call_id": "call_1qzjft0k",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1602_DCIS_7",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_1484_DCIS_25",
+              "score": 0.7111712098121643,
+              "rank": 1,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1487_ADH_35",
+              "score": 0.6864243745803833,
+              "rank": 2,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1487_DCIS_4",
+              "score": 0.6562827825546265,
+              "rank": 3,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1484_ADH_10",
+              "score": 0.6475515365600586,
+              "rank": 4,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1497_UDH_20",
+              "score": 0.6473543047904968,
+              "rank": 5,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 15.275599958840758
+      },
+      {
+        "call_id": "call_su65oik0",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "malignant",
+          "confidence": 0.99,
+          "rationale": "The MoE classifier predicted 'malignant' with extremely high confidence (>99%). While the retrieval channel reportedly predicted 'benign', the actual top-k neighbors are predominantly malignant (DCIS) or atypical, contradicting the reported retrieval prediction and supporting the classifier.",
+          "evidence_image_ids": [
+            "bracs_BRACS_1484_DCIS_25",
+            "bracs_BRACS_1487_DCIS_4"
+          ],
+          "flag_for_review": false,
+          "dominant_expert": null,
+          "trust_source": "classifier",
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.021099986042827368
+      }
+    ],
+    "step_count": 2,
+    "truncated": false,
+    "started_at": "2026-09-19T13:46:50+00:00",
+    "finished_at": "2026-09-19T13:47:25+00:00"
+  },
+  "error": null
+}

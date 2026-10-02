@@ -1,0 +1,19 @@
+### qwen3.6:35b ###
+task=routing completed=18/18 cohort=18 expert=18
+task=discrepancy disagreements=246 completed=6/24 label=3 source=6
+### qwen3.6:35b (max_steps=10) ###
+task=discrepancy disagreements=246 completed=4/6 label=4 source=4
+### stealth/union-alpha (max_steps=10) ###
+task=discrepancy disagreements=246 completed=9/12 label=9 source=9
+### stealth/union-alpha (max_steps=10) ###
+task=discrepancy disagreements=246 completed=12/12 label=12 source=12
+### stealth/union-alpha (max_steps=10) ###
+task=discrepancy disagreements=246 completed=244/246 label=241 source=240
+### gemma4:31b (max_steps=6) ###
+task=routing completed=600/600 cohort=600 expert=600
+### gemma4:31b (max_steps=10) ###
+task=discrepancy disagreements=246 completed=244/246 label=241 source=240
+### qwen3.8:27b (max_steps=6) ###
+task=routing completed=600/600 cohort=600 expert=600
+### qwen3.8:27b (max_steps=10) ###
+task=discrepancy disagreements=246 completed=246/246 label=240 source=239

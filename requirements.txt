@@ -1,0 +1,17 @@
+numpy>=1.26
+pandas>=2.2
+pyarrow>=16.0
+pydantic>=2.8
+pyyaml>=6.0
+scikit-learn>=1.5
+joblib>=1.4
+typer>=0.12
+rich>=13.7
+Pillow>=10.4
+matplotlib>=3.9
+# Foundation-model embedding stack (UNI / Virchow2 / Phikon-v2).
+torch>=2.2
+torchvision>=0.17
+timm>=1.0.9
+transformers>=4.44
+huggingface_hub>=0.24

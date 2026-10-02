@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+artifacts/fm_cache/
+artifacts/q1_results/
+data/

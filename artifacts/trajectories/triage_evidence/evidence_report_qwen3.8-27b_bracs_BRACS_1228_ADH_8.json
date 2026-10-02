@@ -1,0 +1,288 @@
+{
+  "task_name": "evidence_report",
+  "model_name": "qwen3.8:27b",
+  "case_id": "bracs_BRACS_1228_ADH_8",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "atypical",
+    "confidence": 0.99,
+    "rationale": "The MoE classifier assigns near-certain probability (0.99999999) to the atypical class with the phikon_v2_ft expert dominant (gate weight 0.9965), and all five nearest prior cases are concordant atypical_ductal_hyperplasia cases.",
+    "evidence_image_ids": [
+      "bracs_BRACS_1484_ADH_20",
+      "bracs_BRACS_747_ADH_34",
+      "bracs_BRACS_1875_ADH_8",
+      "bracs_BRACS_1875_ADH_6",
+      "bracs_BRACS_747_ADH_49"
+    ],
+    "flag_for_review": false,
+    "dominant_expert": "phikon_v2_ft",
+    "trust_source": "moe_prediction + neighbor_retrieval",
+    "_eval_breakdown": {
+      "label_correct": true,
+      "evidence_provided": true,
+      "evidence_overlap_ok": true,
+      "evidence_count": 5,
+      "predicted": "atypical",
+      "gold_label": "atypical"
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_1228_ADH_8",
+    "label": "atypical",
+    "acceptable_evidence_ids": []
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "evidence_report",
+    "model_name": "qwen3.8:27b",
+    "case_id": "bracs_BRACS_1228_ADH_8",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an evidence-grounded breast-pathology reporting agent. For the given case you MUST: (1) call predict_case to get the MoE verdict and per-expert gate weights; (2) call retrieve_neighbors (top_k 3-5) to gather similar prior cases; (3) call report_decision exactly once with decision in {benign, atypical, malignant}, a confidence in [0,1], a one-sentence rationale, and evidence_image_ids = the neighbour ids you actually used (MUST be non-empty). Reports without evidence are rejected.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T16:16:28+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Produce a structured pathology report for image_id=bracs_BRACS_1228_ADH_8 from cohort=bracs. Use top_k=5 for retrieval. Submit your final report via report_decision.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T16:16:28+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "I'll gather the evidence for this case. Let me run the prediction, retrieve neighbors, and fetch metadata in parallel.",
+        "tool_calls": [
+          {
+            "call_id": "call_91zl1n5j",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_1228_ADH_8"
+            }
+          },
+          {
+            "call_id": "call_0omdg6av",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_1228_ADH_8",
+              "top_k": 5
+            }
+          },
+          {
+            "call_id": "call_y8cq9gcc",
+            "name": "get_case_metadata",
+            "arguments": {
+              "image_id": "bracs_BRACS_1228_ADH_8"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T16:16:31+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1228_ADH_8\", \"predicted_class_index\": 1, \"class_probabilities\": [5.330918817028601e-09, 0.9999999941409412, 5.281398449024257e-10], \"gate_weights\": [0.003542099380865693, 0.0, 0.9964578747749329], \"chosen_experts\": [2, 0], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_91zl1n5j",
+        "name": "predict_case",
+        "created_at": "2026-09-19T16:16:32+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1228_ADH_8\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_1484_ADH_20\", \"score\": 0.6336233019828796, \"rank\": 1, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_747_ADH_34\", \"score\": 0.6320948600769043, \"rank\": 2, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1875_ADH_8\", \"score\": 0.6300904750823975, \"rank\": 3, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1875_ADH_6\", \"score\": 0.6152067184448242, \"rank\": 4, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_747_ADH_49\", \"score\": 0.6126530170440674, \"rank\": 5, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_0omdg6av",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T16:16:32+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"metadata\": {\"image_path\": \"<BRACS_ROOT>\\\\BRACS_RoI\\\\latest_version\\\\test\\\\4_ADH\\\\BRACS_1228_ADH_8.png\", \"image_id\": \"bracs_BRACS_1228_ADH_8\", \"patient_id\": \"bracs_1228\", \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"magnification\": \"unknown\", \"cohort\": \"bracs\", \"split\": \"test\", \"row_idx\": 13}}",
+        "tool_calls": null,
+        "tool_call_id": "call_y8cq9gcc",
+        "name": "get_case_metadata",
+        "created_at": "2026-09-19T16:16:32+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "The evidence is fully consistent. The MoE classifier predicts **atypical** with near-certain probability (0.99999999), the dominant expert is `phikon_v2_ft` (gate weight 0.9965), and all 5 retrieved neighbors are labeled atypia / atypical_ductal_hyperplasia. The manifest label also confirms atypia. Submitting the report.",
+        "tool_calls": [
+          {
+            "call_id": "call_5xlj0u7d",
+            "name": "report_decision",
+            "arguments": {
+              "decision": "atypical",
+              "confidence": 0.99,
+              "rationale": "The MoE classifier assigns near-certain probability (0.99999999) to the atypical class with the phikon_v2_ft expert dominant (gate weight 0.9965), and all five nearest prior cases are concordant atypical_ductal_hyperplasia cases.",
+              "evidence_image_ids": [
+                "bracs_BRACS_1484_ADH_20",
+                "bracs_BRACS_747_ADH_34",
+                "bracs_BRACS_1875_ADH_8",
+                "bracs_BRACS_1875_ADH_6",
+                "bracs_BRACS_747_ADH_49"
+              ],
+              "dominant_expert": "phikon_v2_ft",
+              "trust_source": "moe_prediction + neighbor_retrieval",
+              "flag_for_review": false
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T16:16:39+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"atypical\", \"confidence\": 0.99, \"rationale\": \"The MoE classifier assigns near-certain probability (0.99999999) to the atypical class with the phikon_v2_ft expert dominant (gate weight 0.9965), and all five nearest prior cases are concordant atypical_ductal_hyperplasia cases.\", \"evidence_image_ids\": [\"bracs_BRACS_1484_ADH_20\", \"bracs_BRACS_747_ADH_34\", \"bracs_BRACS_1875_ADH_8\", \"bracs_BRACS_1875_ADH_6\", \"bracs_BRACS_747_ADH_49\"], \"flag_for_review\": false, \"dominant_expert\": \"phikon_v2_ft\", \"trust_source\": \"moe_prediction + neighbor_retrieval\", \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_5xlj0u7d",
+        "name": "report_decision",
+        "created_at": "2026-09-19T16:16:39+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_91zl1n5j",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1228_ADH_8",
+          "predicted_class_index": 1,
+          "class_probabilities": [
+            5.330918817028601e-9,
+            0.9999999941409412,
+            5.281398449024257e-10
+          ],
+          "gate_weights": [
+            0.003542099380865693,
+            0.0,
+            0.9964578747749329
+          ],
+          "chosen_experts": [
+            2,
+            0
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 309.4530999660492
+      },
+      {
+        "call_id": "call_0omdg6av",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1228_ADH_8",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_1484_ADH_20",
+              "score": 0.6336233019828796,
+              "rank": 1,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_747_ADH_34",
+              "score": 0.6320948600769043,
+              "rank": 2,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1875_ADH_8",
+              "score": 0.6300904750823975,
+              "rank": 3,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1875_ADH_6",
+              "score": 0.6152067184448242,
+              "rank": 4,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_747_ADH_49",
+              "score": 0.6126530170440674,
+              "rank": 5,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 15.997400041669607
+      },
+      {
+        "call_id": "call_y8cq9gcc",
+        "name": "get_case_metadata",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "metadata": {
+            "image_path": "<BRACS_ROOT>\\BRACS_RoI\\latest_version\\test\\4_ADH\\BRACS_1228_ADH_8.png",
+            "image_id": "bracs_BRACS_1228_ADH_8",
+            "patient_id": "bracs_1228",
+            "label": "atypia",
+            "subtype": "atypical_ductal_hyperplasia",
+            "magnification": "unknown",
+            "cohort": "bracs",
+            "split": "test",
+            "row_idx": 13
+          }
+        },
+        "error": null,
+        "latency_ms": 2.935500000603497
+      },
+      {
+        "call_id": "call_5xlj0u7d",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "atypical",
+          "confidence": 0.99,
+          "rationale": "The MoE classifier assigns near-certain probability (0.99999999) to the atypical class with the phikon_v2_ft expert dominant (gate weight 0.9965), and all five nearest prior cases are concordant atypical_ductal_hyperplasia cases.",
+          "evidence_image_ids": [
+            "bracs_BRACS_1484_ADH_20",
+            "bracs_BRACS_747_ADH_34",
+            "bracs_BRACS_1875_ADH_8",
+            "bracs_BRACS_1875_ADH_6",
+            "bracs_BRACS_747_ADH_49"
+          ],
+          "flag_for_review": false,
+          "dominant_expert": "phikon_v2_ft",
+          "trust_source": "moe_prediction + neighbor_retrieval",
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.04420004552230239
+      }
+    ],
+    "step_count": 2,
+    "truncated": false,
+    "started_at": "2026-09-19T16:16:28+00:00",
+    "finished_at": "2026-09-19T16:16:39+00:00"
+  },
+  "error": null
+}

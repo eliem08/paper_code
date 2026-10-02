@@ -1,0 +1,2 @@
+BACH 4-class (in-domain 5-fold CV) MoE soft_topk over ['uni', 'virchow2', 'phikon_v2']
+acc 0.9625 | wF1 0.9623 | macro-AUROC 0.9977

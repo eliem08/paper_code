@@ -1,0 +1,259 @@
+{
+  "task_name": "evidence_report",
+  "model_name": "gemma4:31b",
+  "case_id": "bracs_BRACS_300_PB_10",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "benign",
+    "confidence": 0.9999,
+    "rationale": "The MoE classifier predicts a benign/normal result with very high confidence, and all top 5 retrieved neighbors are labeled as normal.",
+    "evidence_image_ids": [
+      "bracs_BRACS_311_N_80",
+      "bracs_BRACS_280_N_18",
+      "bracs_BRACS_280_N_6",
+      "bracs_BRACS_745_N_20",
+      "bracs_BRACS_1506_N_2"
+    ],
+    "flag_for_review": false,
+    "dominant_expert": "uni",
+    "trust_source": null,
+    "_eval_breakdown": {
+      "label_correct": true,
+      "evidence_provided": true,
+      "evidence_overlap_ok": true,
+      "evidence_count": 5,
+      "predicted": "benign",
+      "gold_label": "benign"
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_300_PB_10",
+    "label": "benign",
+    "acceptable_evidence_ids": []
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "evidence_report",
+    "model_name": "gemma4:31b",
+    "case_id": "bracs_BRACS_300_PB_10",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an evidence-grounded breast-pathology reporting agent. For the given case you MUST: (1) call predict_case to get the MoE verdict and per-expert gate weights; (2) call retrieve_neighbors (top_k 3-5) to gather similar prior cases; (3) call report_decision exactly once with decision in {benign, atypical, malignant}, a confidence in [0,1], a one-sentence rationale, and evidence_image_ids = the neighbour ids you actually used (MUST be non-empty). Reports without evidence are rejected.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T04:57:06+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Produce a structured pathology report for image_id=bracs_BRACS_300_PB_10 from cohort=bracs. Use top_k=5 for retrieval. Submit your final report via report_decision.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T04:57:06+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_r8kpmyc7",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_300_PB_10"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T04:57:14+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_300_PB_10\", \"predicted_class_index\": 0, \"class_probabilities\": [0.9999882370631169, 1.1732955533457931e-05, 2.998134958867675e-08], \"gate_weights\": [0.9997620582580566, 0.000237962682149373, 0.0], \"chosen_experts\": [0, 1], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_r8kpmyc7",
+        "name": "predict_case",
+        "created_at": "2026-09-19T04:57:14+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_3lqt0v0h",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_300_PB_10",
+              "top_k": 5
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T04:57:19+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_300_PB_10\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_311_N_80\", \"score\": 0.8284143209457397, \"rank\": 1, \"label\": \"normal\", \"subtype\": \"normal\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_280_N_18\", \"score\": 0.8218731880187988, \"rank\": 2, \"label\": \"normal\", \"subtype\": \"normal\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_280_N_6\", \"score\": 0.7964244484901428, \"rank\": 3, \"label\": \"normal\", \"subtype\": \"normal\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_745_N_20\", \"score\": 0.7942042350769043, \"rank\": 4, \"label\": \"normal\", \"subtype\": \"normal\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1506_N_2\", \"score\": 0.7916555404663086, \"rank\": 5, \"label\": \"normal\", \"subtype\": \"normal\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_3lqt0v0h",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T04:57:19+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_o35ngct7",
+            "name": "report_decision",
+            "arguments": {
+              "confidence": 0.9999,
+              "decision": "benign",
+              "dominant_expert": "uni",
+              "evidence_image_ids": [
+                "bracs_BRACS_311_N_80",
+                "bracs_BRACS_280_N_18",
+                "bracs_BRACS_280_N_6",
+                "bracs_BRACS_745_N_20",
+                "bracs_BRACS_1506_N_2"
+              ],
+              "rationale": "The MoE classifier predicts a benign/normal result with very high confidence, and all top 5 retrieved neighbors are labeled as normal."
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T04:57:36+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"benign\", \"confidence\": 0.9999, \"rationale\": \"The MoE classifier predicts a benign/normal result with very high confidence, and all top 5 retrieved neighbors are labeled as normal.\", \"evidence_image_ids\": [\"bracs_BRACS_311_N_80\", \"bracs_BRACS_280_N_18\", \"bracs_BRACS_280_N_6\", \"bracs_BRACS_745_N_20\", \"bracs_BRACS_1506_N_2\"], \"flag_for_review\": false, \"dominant_expert\": \"uni\", \"trust_source\": null, \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_o35ngct7",
+        "name": "report_decision",
+        "created_at": "2026-09-19T04:57:36+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_r8kpmyc7",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_300_PB_10",
+          "predicted_class_index": 0,
+          "class_probabilities": [
+            0.9999882370631169,
+            0.000011732955533457931,
+            2.998134958867675e-8
+          ],
+          "gate_weights": [
+            0.9997620582580566,
+            0.000237962682149373,
+            0.0
+          ],
+          "chosen_experts": [
+            0,
+            1
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 321.48520002374426
+      },
+      {
+        "call_id": "call_3lqt0v0h",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_300_PB_10",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_311_N_80",
+              "score": 0.8284143209457397,
+              "rank": 1,
+              "label": "normal",
+              "subtype": "normal",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_280_N_18",
+              "score": 0.8218731880187988,
+              "rank": 2,
+              "label": "normal",
+              "subtype": "normal",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_280_N_6",
+              "score": 0.7964244484901428,
+              "rank": 3,
+              "label": "normal",
+              "subtype": "normal",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_745_N_20",
+              "score": 0.7942042350769043,
+              "rank": 4,
+              "label": "normal",
+              "subtype": "normal",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1506_N_2",
+              "score": 0.7916555404663086,
+              "rank": 5,
+              "label": "normal",
+              "subtype": "normal",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 25.435100018512458
+      },
+      {
+        "call_id": "call_o35ngct7",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "benign",
+          "confidence": 0.9999,
+          "rationale": "The MoE classifier predicts a benign/normal result with very high confidence, and all top 5 retrieved neighbors are labeled as normal.",
+          "evidence_image_ids": [
+            "bracs_BRACS_311_N_80",
+            "bracs_BRACS_280_N_18",
+            "bracs_BRACS_280_N_6",
+            "bracs_BRACS_745_N_20",
+            "bracs_BRACS_1506_N_2"
+          ],
+          "flag_for_review": false,
+          "dominant_expert": "uni",
+          "trust_source": null,
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.02889998722821474
+      }
+    ],
+    "step_count": 3,
+    "truncated": false,
+    "started_at": "2026-09-19T04:57:06+00:00",
+    "finished_at": "2026-09-19T04:57:36+00:00"
+  },
+  "error": null
+}

@@ -1,0 +1,56 @@
+{
+  "n_classes": 3,
+  "temperature": 2.631,
+  "accuracy_full": 0.8649,
+  "risk_coverage": [
+    {
+      "coverage": 1.0,
+      "n_auto": 570,
+      "deferred": 0,
+      "accuracy_retained": 0.8649,
+      "conf_threshold": 0.464
+    },
+    {
+      "coverage": 0.95,
+      "n_auto": 542,
+      "deferred": 28,
+      "accuracy_retained": 0.8911,
+      "conf_threshold": 0.74
+    },
+    {
+      "coverage": 0.9,
+      "n_auto": 513,
+      "deferred": 57,
+      "accuracy_retained": 0.9006,
+      "conf_threshold": 0.891
+    },
+    {
+      "coverage": 0.8,
+      "n_auto": 456,
+      "deferred": 114,
+      "accuracy_retained": 0.932,
+      "conf_threshold": 0.98
+    },
+    {
+      "coverage": 0.7,
+      "n_auto": 399,
+      "deferred": 171,
+      "accuracy_retained": 0.9524,
+      "conf_threshold": 0.995
+    },
+    {
+      "coverage": 0.6,
+      "n_auto": 342,
+      "deferred": 228,
+      "accuracy_retained": 0.962,
+      "conf_threshold": 0.998
+    },
+    {
+      "coverage": 0.5,
+      "n_auto": 285,
+      "deferred": 285,
+      "accuracy_retained": 0.9649,
+      "conf_threshold": 0.999
+    }
+  ]
+}

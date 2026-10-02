@@ -1,0 +1,270 @@
+{
+  "task_name": "discrepancy_resolution",
+  "model_name": "gemma4:31b",
+  "case_id": "bracs_BRACS_1476_ADH_4",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "atypical",
+    "confidence": 0.99,
+    "rationale": "The MoE classifier predicted 'atypical' with extremely high confidence (p > 0.99), which aligns with the case metadata. The retrieval channel was misled by similar-looking benign usual ductal hyperplasia (UDH) cases.",
+    "evidence_image_ids": [],
+    "flag_for_review": false,
+    "dominant_expert": null,
+    "trust_source": "classifier",
+    "_eval_breakdown": {
+      "predicted": "atypical",
+      "gold_label": "atypical",
+      "label_correct": true,
+      "trust_source": "classifier",
+      "gold_correct_source": "classifier",
+      "source_correct": true,
+      "flagged": false
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_1476_ADH_4",
+    "label": "atypical",
+    "classifier_prediction": "atypical",
+    "retrieval_prediction": "benign"
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "discrepancy_resolution",
+    "model_name": "gemma4:31b",
+    "case_id": "bracs_BRACS_1476_ADH_4",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a discrepancy-resolution agent for a pathology workflow. You will be told what the MoE classifier predicted AND what the retrieval channel predicted for the same case -- and these will disagree. Your job is to pick which one to trust and submit a final unified label, or flag the case for human review when neither source is credible.\n\nProcedure:\n  1. Optionally call get_case_metadata, predict_case (to inspect gate weights), and retrieve_neighbors (to inspect neighbor labels) to ground your judgement.\n  2. Call report_decision with:\n       - decision: final unified label (benign / atypical / malignant) -- use exactly one of these tokens, verbatim\n       - confidence\n       - trust_source: 'classifier', 'retrieval', or 'neither' (if you set 'neither', also set flag_for_review=true)\n       - rationale: 1-3 sentences justifying which source you trusted and why.\n       - evidence_image_ids: neighbor ids that supported your decision, if any.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T11:03:02+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Case image_id=bracs_BRACS_1476_ADH_4 from cohort=bracs. The MoE classifier predicted 'atypical' while the retrieval channel predicted 'benign'. Decide which source to trust and submit your final label.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T11:03:02+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_a1890z92",
+            "name": "get_case_metadata",
+            "arguments": {
+              "image_id": "bracs_BRACS_1476_ADH_4"
+            }
+          },
+          {
+            "call_id": "call_vm12s7mt",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_1476_ADH_4"
+            }
+          },
+          {
+            "call_id": "call_12ogbux4",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_1476_ADH_4"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T11:03:15+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"metadata\": {\"image_path\": \"<BRACS_ROOT>\\\\BRACS_RoI\\\\latest_version\\\\test\\\\4_ADH\\\\BRACS_1476_ADH_4.png\", \"image_id\": \"bracs_BRACS_1476_ADH_4\", \"patient_id\": \"bracs_1476\", \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"magnification\": \"unknown\", \"cohort\": \"bracs\", \"split\": \"test\", \"row_idx\": 30}}",
+        "tool_calls": null,
+        "tool_call_id": "call_a1890z92",
+        "name": "get_case_metadata",
+        "created_at": "2026-09-19T11:03:15+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1476_ADH_4\", \"predicted_class_index\": 1, \"class_probabilities\": [7.363272603382672e-05, 0.9999149839599667, 1.1383313999548011e-05], \"gate_weights\": [0.0, 0.01581663265824318, 0.9841833710670471], \"chosen_experts\": [2, 1], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_vm12s7mt",
+        "name": "predict_case",
+        "created_at": "2026-09-19T11:03:15+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1476_ADH_4\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_1616_UDH_1\", \"score\": 0.7001502513885498, \"rank\": 1, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1618_UDH_11\", \"score\": 0.6737390160560608, \"rank\": 2, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1409_UDH_10\", \"score\": 0.632927417755127, \"rank\": 3, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1618_UDH_2\", \"score\": 0.6314533948898315, \"rank\": 4, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1616_ADH_5\", \"score\": 0.6288518309593201, \"rank\": 5, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_12ogbux4",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T11:03:15+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_0ufys75u",
+            "name": "report_decision",
+            "arguments": {
+              "confidence": 0.99,
+              "decision": "atypical",
+              "evidence_image_ids": [],
+              "flag_for_review": false,
+              "rationale": "The MoE classifier predicted 'atypical' with extremely high confidence (p > 0.99), which aligns with the case metadata. The retrieval channel was misled by similar-looking benign usual ductal hyperplasia (UDH) cases.",
+              "trust_source": "classifier"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T11:03:25+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"atypical\", \"confidence\": 0.99, \"rationale\": \"The MoE classifier predicted 'atypical' with extremely high confidence (p > 0.99), which aligns with the case metadata. The retrieval channel was misled by similar-looking benign usual ductal hyperplasia (UDH) cases.\", \"evidence_image_ids\": [], \"flag_for_review\": false, \"dominant_expert\": null, \"trust_source\": \"classifier\", \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_0ufys75u",
+        "name": "report_decision",
+        "created_at": "2026-09-19T11:03:25+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_a1890z92",
+        "name": "get_case_metadata",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "metadata": {
+            "image_path": "<BRACS_ROOT>\\BRACS_RoI\\latest_version\\test\\4_ADH\\BRACS_1476_ADH_4.png",
+            "image_id": "bracs_BRACS_1476_ADH_4",
+            "patient_id": "bracs_1476",
+            "label": "atypia",
+            "subtype": "atypical_ductal_hyperplasia",
+            "magnification": "unknown",
+            "cohort": "bracs",
+            "split": "test",
+            "row_idx": 30
+          }
+        },
+        "error": null,
+        "latency_ms": 10.830899991560727
+      },
+      {
+        "call_id": "call_vm12s7mt",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1476_ADH_4",
+          "predicted_class_index": 1,
+          "class_probabilities": [
+            0.00007363272603382672,
+            0.9999149839599667,
+            0.000011383313999548011
+          ],
+          "gate_weights": [
+            0.0,
+            0.01581663265824318,
+            0.9841833710670471
+          ],
+          "chosen_experts": [
+            2,
+            1
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 319.45939996512607
+      },
+      {
+        "call_id": "call_12ogbux4",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1476_ADH_4",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_1616_UDH_1",
+              "score": 0.7001502513885498,
+              "rank": 1,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1618_UDH_11",
+              "score": 0.6737390160560608,
+              "rank": 2,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1409_UDH_10",
+              "score": 0.632927417755127,
+              "rank": 3,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1618_UDH_2",
+              "score": 0.6314533948898315,
+              "rank": 4,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1616_ADH_5",
+              "score": 0.6288518309593201,
+              "rank": 5,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 16.94820000557229
+      },
+      {
+        "call_id": "call_0ufys75u",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "atypical",
+          "confidence": 0.99,
+          "rationale": "The MoE classifier predicted 'atypical' with extremely high confidence (p > 0.99), which aligns with the case metadata. The retrieval channel was misled by similar-looking benign usual ductal hyperplasia (UDH) cases.",
+          "evidence_image_ids": [],
+          "flag_for_review": false,
+          "dominant_expert": null,
+          "trust_source": "classifier",
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.03359996480867267
+      }
+    ],
+    "step_count": 2,
+    "truncated": false,
+    "started_at": "2026-09-19T11:03:02+00:00",
+    "finished_at": "2026-09-19T11:03:25+00:00"
+  },
+  "error": null
+}

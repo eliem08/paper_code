@@ -1,0 +1,20 @@
+PolyForm Noncommercial License 1.0.0
+
+Required Notice: Copyright (c) 2026 The Authors. All rights reserved except as
+granted under the PolyForm Noncommercial License 1.0.0.
+
+This software and the accompanying model checkpoints, retrieval index, results
+and agent trajectories are licensed under the PolyForm Noncommercial License
+1.0.0. The full license text is available at:
+
+    https://polyformproject.org/licenses/noncommercial/1.0.0
+
+In summary (the full text above governs): you may use, copy, modify and
+distribute this software for any noncommercial purpose, including academic
+research, teaching, peer review and personal study. Commercial use of any kind,
+including use in or as part of a commercial product or service, requires a
+separate written license from the authors.
+
+Third-party components keep their own licenses. In particular, the pathology
+foundation models (UNI, Virchow2, Phikon-v2) and the datasets (BRACS, BACH,
+BreaKHis) are NOT distributed here and are subject to their providers' terms.

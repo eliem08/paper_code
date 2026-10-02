@@ -1,0 +1,288 @@
+{
+  "task_name": "evidence_report",
+  "model_name": "qwen3.8:27b",
+  "case_id": "bracs_BRACS_1943_FEA_7",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "atypical",
+    "confidence": 0.99,
+    "rationale": "The MoE classifier assigns near-certain probability (0.999999) to the atypical class, dominated by the phikon_v2_ft expert (gate weight 0.967), and all five nearest prior cases are concordantly labeled flat epithelial atypia.",
+    "evidence_image_ids": [
+      "bracs_BRACS_1950_FEA_19",
+      "bracs_BRACS_311_FEA_46",
+      "bracs_BRACS_311_FEA_22",
+      "bracs_BRACS_1888_FEA_9",
+      "bracs_BRACS_311_FEA_69"
+    ],
+    "flag_for_review": false,
+    "dominant_expert": "phikon_v2_ft",
+    "trust_source": "moe_classifier",
+    "_eval_breakdown": {
+      "label_correct": true,
+      "evidence_provided": true,
+      "evidence_overlap_ok": true,
+      "evidence_count": 5,
+      "predicted": "atypical",
+      "gold_label": "atypical"
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_1943_FEA_7",
+    "label": "atypical",
+    "acceptable_evidence_ids": []
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "evidence_report",
+    "model_name": "qwen3.8:27b",
+    "case_id": "bracs_BRACS_1943_FEA_7",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an evidence-grounded breast-pathology reporting agent. For the given case you MUST: (1) call predict_case to get the MoE verdict and per-expert gate weights; (2) call retrieve_neighbors (top_k 3-5) to gather similar prior cases; (3) call report_decision exactly once with decision in {benign, atypical, malignant}, a confidence in [0,1], a one-sentence rationale, and evidence_image_ids = the neighbour ids you actually used (MUST be non-empty). Reports without evidence are rejected.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T18:01:25+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Produce a structured pathology report for image_id=bracs_BRACS_1943_FEA_7 from cohort=bracs. Use top_k=5 for retrieval. Submit your final report via report_decision.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T18:01:25+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "I'll gather the MoE verdict, similar prior cases, and case metadata in parallel.",
+        "tool_calls": [
+          {
+            "call_id": "call_1gcx5czr",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_1943_FEA_7"
+            }
+          },
+          {
+            "call_id": "call_sja17yyt",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_1943_FEA_7",
+              "top_k": 5
+            }
+          },
+          {
+            "call_id": "call_uj5x2xcw",
+            "name": "get_case_metadata",
+            "arguments": {
+              "image_id": "bracs_BRACS_1943_FEA_7"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T18:01:29+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1943_FEA_7\", \"predicted_class_index\": 1, \"class_probabilities\": [1.3496674297633796e-06, 0.999998643439951, 6.892619347311985e-09], \"gate_weights\": [0.03304390236735344, 0.0, 0.9669561386108398], \"chosen_experts\": [2, 0], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_1gcx5czr",
+        "name": "predict_case",
+        "created_at": "2026-09-19T18:01:29+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1943_FEA_7\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_1950_FEA_19\", \"score\": 0.7636139392852783, \"rank\": 1, \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_FEA_46\", \"score\": 0.7468836307525635, \"rank\": 2, \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_FEA_22\", \"score\": 0.740369975566864, \"rank\": 3, \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1888_FEA_9\", \"score\": 0.7268567085266113, \"rank\": 4, \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_FEA_69\", \"score\": 0.7232747077941895, \"rank\": 5, \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_sja17yyt",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T18:01:29+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"metadata\": {\"image_path\": \"<BRACS_ROOT>\\\\BRACS_RoI\\\\latest_version\\\\test\\\\3_FEA\\\\BRACS_1943_FEA_7.png\", \"image_id\": \"bracs_BRACS_1943_FEA_7\", \"patient_id\": \"bracs_1943\", \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"magnification\": \"unknown\", \"cohort\": \"bracs\", \"split\": \"test\", \"row_idx\": 156}}",
+        "tool_calls": null,
+        "tool_call_id": "call_uj5x2xcw",
+        "name": "get_case_metadata",
+        "created_at": "2026-09-19T18:01:29+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "All evidence is consistent: the MoE classifier is near-certain on class index 1 (atypical, p≈0.999999), the dominant expert is `phikon_v2_ft` (gate weight 0.967), and all 5 retrieved neighbors are labeled atypia / flat_epithelial_atypia. Submitting the report.",
+        "tool_calls": [
+          {
+            "call_id": "call_90g4ilzg",
+            "name": "report_decision",
+            "arguments": {
+              "decision": "atypical",
+              "confidence": 0.99,
+              "rationale": "The MoE classifier assigns near-certain probability (0.999999) to the atypical class, dominated by the phikon_v2_ft expert (gate weight 0.967), and all five nearest prior cases are concordantly labeled flat epithelial atypia.",
+              "evidence_image_ids": [
+                "bracs_BRACS_1950_FEA_19",
+                "bracs_BRACS_311_FEA_46",
+                "bracs_BRACS_311_FEA_22",
+                "bracs_BRACS_1888_FEA_9",
+                "bracs_BRACS_311_FEA_69"
+              ],
+              "dominant_expert": "phikon_v2_ft",
+              "trust_source": "moe_classifier",
+              "flag_for_review": false
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T18:01:37+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"atypical\", \"confidence\": 0.99, \"rationale\": \"The MoE classifier assigns near-certain probability (0.999999) to the atypical class, dominated by the phikon_v2_ft expert (gate weight 0.967), and all five nearest prior cases are concordantly labeled flat epithelial atypia.\", \"evidence_image_ids\": [\"bracs_BRACS_1950_FEA_19\", \"bracs_BRACS_311_FEA_46\", \"bracs_BRACS_311_FEA_22\", \"bracs_BRACS_1888_FEA_9\", \"bracs_BRACS_311_FEA_69\"], \"flag_for_review\": false, \"dominant_expert\": \"phikon_v2_ft\", \"trust_source\": \"moe_classifier\", \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_90g4ilzg",
+        "name": "report_decision",
+        "created_at": "2026-09-19T18:01:37+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_1gcx5czr",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1943_FEA_7",
+          "predicted_class_index": 1,
+          "class_probabilities": [
+            1.3496674297633796e-6,
+            0.999998643439951,
+            6.892619347311985e-9
+          ],
+          "gate_weights": [
+            0.03304390236735344,
+            0.0,
+            0.9669561386108398
+          ],
+          "chosen_experts": [
+            2,
+            0
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 334.2438000254333
+      },
+      {
+        "call_id": "call_sja17yyt",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1943_FEA_7",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_1950_FEA_19",
+              "score": 0.7636139392852783,
+              "rank": 1,
+              "label": "atypia",
+              "subtype": "flat_epithelial_atypia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_FEA_46",
+              "score": 0.7468836307525635,
+              "rank": 2,
+              "label": "atypia",
+              "subtype": "flat_epithelial_atypia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_FEA_22",
+              "score": 0.740369975566864,
+              "rank": 3,
+              "label": "atypia",
+              "subtype": "flat_epithelial_atypia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1888_FEA_9",
+              "score": 0.7268567085266113,
+              "rank": 4,
+              "label": "atypia",
+              "subtype": "flat_epithelial_atypia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_FEA_69",
+              "score": 0.7232747077941895,
+              "rank": 5,
+              "label": "atypia",
+              "subtype": "flat_epithelial_atypia",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 17.502699978649616
+      },
+      {
+        "call_id": "call_uj5x2xcw",
+        "name": "get_case_metadata",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "metadata": {
+            "image_path": "<BRACS_ROOT>\\BRACS_RoI\\latest_version\\test\\3_FEA\\BRACS_1943_FEA_7.png",
+            "image_id": "bracs_BRACS_1943_FEA_7",
+            "patient_id": "bracs_1943",
+            "label": "atypia",
+            "subtype": "flat_epithelial_atypia",
+            "magnification": "unknown",
+            "cohort": "bracs",
+            "split": "test",
+            "row_idx": 156
+          }
+        },
+        "error": null,
+        "latency_ms": 3.052000014577061
+      },
+      {
+        "call_id": "call_90g4ilzg",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "atypical",
+          "confidence": 0.99,
+          "rationale": "The MoE classifier assigns near-certain probability (0.999999) to the atypical class, dominated by the phikon_v2_ft expert (gate weight 0.967), and all five nearest prior cases are concordantly labeled flat epithelial atypia.",
+          "evidence_image_ids": [
+            "bracs_BRACS_1950_FEA_19",
+            "bracs_BRACS_311_FEA_46",
+            "bracs_BRACS_311_FEA_22",
+            "bracs_BRACS_1888_FEA_9",
+            "bracs_BRACS_311_FEA_69"
+          ],
+          "flag_for_review": false,
+          "dominant_expert": "phikon_v2_ft",
+          "trust_source": "moe_classifier",
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.026899971999228
+      }
+    ],
+    "step_count": 2,
+    "truncated": false,
+    "started_at": "2026-09-19T18:01:25+00:00",
+    "finished_at": "2026-09-19T18:01:37+00:00"
+  },
+  "error": null
+}

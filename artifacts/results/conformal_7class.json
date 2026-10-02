@@ -1,0 +1,21 @@
+{
+  "n_classes": 7,
+  "alpha": {
+    "0.10": {
+      "target_coverage": 0.9,
+      "empirical_coverage": 0.9333,
+      "avg_set_size": 2.244,
+      "singleton_rate": 0.3298,
+      "acc_on_singletons": 0.9309,
+      "escalate_rate": 0.6702
+    },
+    "0.05": {
+      "target_coverage": 0.95,
+      "empirical_coverage": 0.9667,
+      "avg_set_size": 3.116,
+      "singleton_rate": 0.1632,
+      "acc_on_singletons": 0.9462,
+      "escalate_rate": 0.8368
+    }
+  }
+}

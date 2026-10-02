@@ -1,0 +1,288 @@
+{
+  "task_name": "evidence_report",
+  "model_name": "qwen3.8:27b",
+  "case_id": "bracs_BRACS_1602_UDH_4",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "benign",
+    "confidence": 0.99,
+    "rationale": "The MoE classifier assigns benign with near-certain probability (0.99998) and all five nearest prior cases are benign/normal, four of which share the usual_ductal_hyperplasia subtype.",
+    "evidence_image_ids": [
+      "bracs_BRACS_1494_UDH_38",
+      "bracs_BRACS_1494_UDH_55",
+      "bracs_BRACS_1494_UDH_7",
+      "bracs_BRACS_1493_N_4",
+      "bracs_BRACS_1494_UDH_29"
+    ],
+    "flag_for_review": false,
+    "dominant_expert": "uni",
+    "trust_source": "moe_prediction + neighbor_retrieval",
+    "_eval_breakdown": {
+      "label_correct": true,
+      "evidence_provided": true,
+      "evidence_overlap_ok": true,
+      "evidence_count": 5,
+      "predicted": "benign",
+      "gold_label": "benign"
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_1602_UDH_4",
+    "label": "benign",
+    "acceptable_evidence_ids": []
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "evidence_report",
+    "model_name": "qwen3.8:27b",
+    "case_id": "bracs_BRACS_1602_UDH_4",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an evidence-grounded breast-pathology reporting agent. For the given case you MUST: (1) call predict_case to get the MoE verdict and per-expert gate weights; (2) call retrieve_neighbors (top_k 3-5) to gather similar prior cases; (3) call report_decision exactly once with decision in {benign, atypical, malignant}, a confidence in [0,1], a one-sentence rationale, and evidence_image_ids = the neighbour ids you actually used (MUST be non-empty). Reports without evidence are rejected.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T16:29:28+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Produce a structured pathology report for image_id=bracs_BRACS_1602_UDH_4 from cohort=bracs. Use top_k=5 for retrieval. Submit your final report via report_decision.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T16:29:28+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "I'll gather the evidence for this case. Let me run the prediction, retrieve neighbors, and fetch metadata in parallel.",
+        "tool_calls": [
+          {
+            "call_id": "call_5vlg1q2f",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_1602_UDH_4"
+            }
+          },
+          {
+            "call_id": "call_fsvrcpzk",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_1602_UDH_4",
+              "top_k": 5
+            }
+          },
+          {
+            "call_id": "call_t8ukcl0p",
+            "name": "get_case_metadata",
+            "arguments": {
+              "image_id": "bracs_BRACS_1602_UDH_4"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T16:29:31+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1602_UDH_4\", \"predicted_class_index\": 0, \"class_probabilities\": [0.9999780388933529, 2.1955355428557238e-05, 5.751218498643556e-09], \"gate_weights\": [0.999956488609314, 0.0, 4.3528656533453614e-05], \"chosen_experts\": [0, 2], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_5vlg1q2f",
+        "name": "predict_case",
+        "created_at": "2026-09-19T16:29:31+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1602_UDH_4\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_1494_UDH_38\", \"score\": 0.7233694791793823, \"rank\": 1, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1494_UDH_55\", \"score\": 0.6998116970062256, \"rank\": 2, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1494_UDH_7\", \"score\": 0.6985515356063843, \"rank\": 3, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1493_N_4\", \"score\": 0.6954065561294556, \"rank\": 4, \"label\": \"normal\", \"subtype\": \"normal\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1494_UDH_29\", \"score\": 0.6945534944534302, \"rank\": 5, \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_fsvrcpzk",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T16:29:31+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"metadata\": {\"image_path\": \"<BRACS_ROOT>\\\\BRACS_RoI\\\\latest_version\\\\test\\\\2_UDH\\\\BRACS_1602_UDH_4.png\", \"image_id\": \"bracs_BRACS_1602_UDH_4\", \"patient_id\": \"bracs_1602\", \"label\": \"benign\", \"subtype\": \"usual_ductal_hyperplasia\", \"magnification\": \"unknown\", \"cohort\": \"bracs\", \"split\": \"test\", \"row_idx\": 294}}",
+        "tool_calls": null,
+        "tool_call_id": "call_t8ukcl0p",
+        "name": "get_case_metadata",
+        "created_at": "2026-09-19T16:29:31+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "All evidence is consistent. The MoE classifier returns benign (probability 0.99998) with the \"uni\" expert dominating the gate (0.99996). All five retrieved neighbors are benign/normal, four of which are usual_ductal_hyperplasia — matching this case's own subtype. Submitting the report.",
+        "tool_calls": [
+          {
+            "call_id": "call_tearcik8",
+            "name": "report_decision",
+            "arguments": {
+              "decision": "benign",
+              "confidence": 0.99,
+              "rationale": "The MoE classifier assigns benign with near-certain probability (0.99998) and all five nearest prior cases are benign/normal, four of which share the usual_ductal_hyperplasia subtype.",
+              "evidence_image_ids": [
+                "bracs_BRACS_1494_UDH_38",
+                "bracs_BRACS_1494_UDH_55",
+                "bracs_BRACS_1494_UDH_7",
+                "bracs_BRACS_1493_N_4",
+                "bracs_BRACS_1494_UDH_29"
+              ],
+              "dominant_expert": "uni",
+              "trust_source": "moe_prediction + neighbor_retrieval",
+              "flag_for_review": false
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T16:29:38+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"benign\", \"confidence\": 0.99, \"rationale\": \"The MoE classifier assigns benign with near-certain probability (0.99998) and all five nearest prior cases are benign/normal, four of which share the usual_ductal_hyperplasia subtype.\", \"evidence_image_ids\": [\"bracs_BRACS_1494_UDH_38\", \"bracs_BRACS_1494_UDH_55\", \"bracs_BRACS_1494_UDH_7\", \"bracs_BRACS_1493_N_4\", \"bracs_BRACS_1494_UDH_29\"], \"flag_for_review\": false, \"dominant_expert\": \"uni\", \"trust_source\": \"moe_prediction + neighbor_retrieval\", \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_tearcik8",
+        "name": "report_decision",
+        "created_at": "2026-09-19T16:29:38+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_5vlg1q2f",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1602_UDH_4",
+          "predicted_class_index": 0,
+          "class_probabilities": [
+            0.9999780388933529,
+            0.000021955355428557238,
+            5.751218498643556e-9
+          ],
+          "gate_weights": [
+            0.999956488609314,
+            0.0,
+            0.000043528656533453614
+          ],
+          "chosen_experts": [
+            0,
+            2
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 315.4439000063576
+      },
+      {
+        "call_id": "call_fsvrcpzk",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1602_UDH_4",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_1494_UDH_38",
+              "score": 0.7233694791793823,
+              "rank": 1,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1494_UDH_55",
+              "score": 0.6998116970062256,
+              "rank": 2,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1494_UDH_7",
+              "score": 0.6985515356063843,
+              "rank": 3,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1493_N_4",
+              "score": 0.6954065561294556,
+              "rank": 4,
+              "label": "normal",
+              "subtype": "normal",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1494_UDH_29",
+              "score": 0.6945534944534302,
+              "rank": 5,
+              "label": "benign",
+              "subtype": "usual_ductal_hyperplasia",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 15.22329996805638
+      },
+      {
+        "call_id": "call_t8ukcl0p",
+        "name": "get_case_metadata",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "metadata": {
+            "image_path": "<BRACS_ROOT>\\BRACS_RoI\\latest_version\\test\\2_UDH\\BRACS_1602_UDH_4.png",
+            "image_id": "bracs_BRACS_1602_UDH_4",
+            "patient_id": "bracs_1602",
+            "label": "benign",
+            "subtype": "usual_ductal_hyperplasia",
+            "magnification": "unknown",
+            "cohort": "bracs",
+            "split": "test",
+            "row_idx": 294
+          }
+        },
+        "error": null,
+        "latency_ms": 3.0578000005334616
+      },
+      {
+        "call_id": "call_tearcik8",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "benign",
+          "confidence": 0.99,
+          "rationale": "The MoE classifier assigns benign with near-certain probability (0.99998) and all five nearest prior cases are benign/normal, four of which share the usual_ductal_hyperplasia subtype.",
+          "evidence_image_ids": [
+            "bracs_BRACS_1494_UDH_38",
+            "bracs_BRACS_1494_UDH_55",
+            "bracs_BRACS_1494_UDH_7",
+            "bracs_BRACS_1493_N_4",
+            "bracs_BRACS_1494_UDH_29"
+          ],
+          "flag_for_review": false,
+          "dominant_expert": "uni",
+          "trust_source": "moe_prediction + neighbor_retrieval",
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.0315000070258975
+      }
+    ],
+    "step_count": 2,
+    "truncated": false,
+    "started_at": "2026-09-19T16:29:28+00:00",
+    "finished_at": "2026-09-19T16:29:38+00:00"
+  },
+  "error": null
+}

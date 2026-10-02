@@ -1,0 +1,306 @@
+{
+  "task_name": "discrepancy_resolution",
+  "model_name": "qwen3.8:27b",
+  "case_id": "bracs_BRACS_1943_FEA_1",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "atypical",
+    "confidence": 0.9,
+    "rationale": "The MoE classifier is highly confident (99.85% atypical) with the phikon_v2_ft expert dominating the gate (89.4%), and 3 of the top-8 neighbors are flat_epithelial_atypia cases, consistent with the atypical call. The benign neighbors are likely visually similar but the classifier's strong expert-weighted signal and FEA-matching neighbors favor atypical.",
+    "evidence_image_ids": [
+      "bracs_BRACS_311_FEA_54",
+      "bracs_BRACS_311_FEA_33",
+      "bracs_BRACS_1862_FEA_15"
+    ],
+    "flag_for_review": false,
+    "dominant_expert": null,
+    "trust_source": "classifier",
+    "_eval_breakdown": {
+      "predicted": "atypical",
+      "gold_label": "atypical",
+      "label_correct": true,
+      "trust_source": "classifier",
+      "gold_correct_source": "classifier",
+      "source_correct": true,
+      "flagged": false
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_1943_FEA_1",
+    "label": "atypical",
+    "classifier_prediction": "atypical",
+    "retrieval_prediction": "benign"
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "discrepancy_resolution",
+    "model_name": "qwen3.8:27b",
+    "case_id": "bracs_BRACS_1943_FEA_1",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a discrepancy-resolution agent for a pathology workflow. You will be told what the MoE classifier predicted AND what the retrieval channel predicted for the same case -- and these will disagree. Your job is to pick which one to trust and submit a final unified label, or flag the case for human review when neither source is credible.\n\nProcedure:\n  1. Optionally call get_case_metadata, predict_case (to inspect gate weights), and retrieve_neighbors (to inspect neighbor labels) to ground your judgement.\n  2. Call report_decision with:\n       - decision: final unified label (benign / atypical / malignant) -- use exactly one of these tokens, verbatim\n       - confidence\n       - trust_source: 'classifier', 'retrieval', or 'neither' (if you set 'neither', also set flag_for_review=true)\n       - rationale: 1-3 sentences justifying which source you trusted and why.\n       - evidence_image_ids: neighbor ids that supported your decision, if any.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:39:03+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Case image_id=bracs_BRACS_1943_FEA_1 from cohort=bracs. The MoE classifier predicted 'atypical' while the retrieval channel predicted 'benign'. Decide which source to trust and submit your final label.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:39:03+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_joe0ha5s",
+            "name": "get_case_metadata",
+            "arguments": {
+              "image_id": "bracs_BRACS_1943_FEA_1"
+            }
+          },
+          {
+            "call_id": "call_rt14njor",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_1943_FEA_1"
+            }
+          },
+          {
+            "call_id": "call_as8en5wn",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_1943_FEA_1",
+              "top_k": 8
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:39:06+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"metadata\": {\"image_path\": \"<BRACS_ROOT>\\\\BRACS_RoI\\\\latest_version\\\\test\\\\3_FEA\\\\BRACS_1943_FEA_1.png\", \"image_id\": \"bracs_BRACS_1943_FEA_1\", \"patient_id\": \"bracs_1943\", \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"magnification\": \"unknown\", \"cohort\": \"bracs\", \"split\": \"test\", \"row_idx\": 141}}",
+        "tool_calls": null,
+        "tool_call_id": "call_joe0ha5s",
+        "name": "get_case_metadata",
+        "created_at": "2026-09-19T19:39:06+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1943_FEA_1\", \"predicted_class_index\": 1, \"class_probabilities\": [0.001466303921464613, 0.9985336927114775, 3.367057977411214e-09], \"gate_weights\": [0.10596730560064316, 0.0, 0.8940327167510986], \"chosen_experts\": [2, 0], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_rt14njor",
+        "name": "predict_case",
+        "created_at": "2026-09-19T19:39:06+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1943_FEA_1\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_1881_PB_12\", \"score\": 0.7526094913482666, \"rank\": 1, \"label\": \"benign\", \"subtype\": \"pathological_benign\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1881_PB_5\", \"score\": 0.7525867223739624, \"rank\": 2, \"label\": \"benign\", \"subtype\": \"pathological_benign\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_FEA_54\", \"score\": 0.7493312954902649, \"rank\": 3, \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1881_PB_4\", \"score\": 0.7453659176826477, \"rank\": 4, \"label\": \"benign\", \"subtype\": \"pathological_benign\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1949_PB_3\", \"score\": 0.7358986139297485, \"rank\": 5, \"label\": \"benign\", \"subtype\": \"pathological_benign\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1933_PB_14\", \"score\": 0.7357115745544434, \"rank\": 6, \"label\": \"benign\", \"subtype\": \"pathological_benign\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_FEA_33\", \"score\": 0.7307004928588867, \"rank\": 7, \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1862_FEA_15\", \"score\": 0.726668119430542, \"rank\": 8, \"label\": \"atypia\", \"subtype\": \"flat_epithelial_atypia\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_as8en5wn",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T19:39:06+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_c0si4hyj",
+            "name": "report_decision",
+            "arguments": {
+              "decision": "atypical",
+              "confidence": 0.9,
+              "trust_source": "classifier",
+              "rationale": "The MoE classifier is highly confident (99.85% atypical) with the phikon_v2_ft expert dominating the gate (89.4%), and 3 of the top-8 neighbors are flat_epithelial_atypia cases, consistent with the atypical call. The benign neighbors are likely visually similar but the classifier's strong expert-weighted signal and FEA-matching neighbors favor atypical.",
+              "evidence_image_ids": [
+                "bracs_BRACS_311_FEA_54",
+                "bracs_BRACS_311_FEA_33",
+                "bracs_BRACS_1862_FEA_15"
+              ]
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:39:12+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"atypical\", \"confidence\": 0.9, \"rationale\": \"The MoE classifier is highly confident (99.85% atypical) with the phikon_v2_ft expert dominating the gate (89.4%), and 3 of the top-8 neighbors are flat_epithelial_atypia cases, consistent with the atypical call. The benign neighbors are likely visually similar but the classifier's strong expert-weighted signal and FEA-matching neighbors favor atypical.\", \"evidence_image_ids\": [\"bracs_BRACS_311_FEA_54\", \"bracs_BRACS_311_FEA_33\", \"bracs_BRACS_1862_FEA_15\"], \"flag_for_review\": false, \"dominant_expert\": null, \"trust_source\": \"classifier\", \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_c0si4hyj",
+        "name": "report_decision",
+        "created_at": "2026-09-19T19:39:12+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_joe0ha5s",
+        "name": "get_case_metadata",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "metadata": {
+            "image_path": "<BRACS_ROOT>\\BRACS_RoI\\latest_version\\test\\3_FEA\\BRACS_1943_FEA_1.png",
+            "image_id": "bracs_BRACS_1943_FEA_1",
+            "patient_id": "bracs_1943",
+            "label": "atypia",
+            "subtype": "flat_epithelial_atypia",
+            "magnification": "unknown",
+            "cohort": "bracs",
+            "split": "test",
+            "row_idx": 141
+          }
+        },
+        "error": null,
+        "latency_ms": 11.82620000327006
+      },
+      {
+        "call_id": "call_rt14njor",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1943_FEA_1",
+          "predicted_class_index": 1,
+          "class_probabilities": [
+            0.001466303921464613,
+            0.9985336927114775,
+            3.367057977411214e-9
+          ],
+          "gate_weights": [
+            0.10596730560064316,
+            0.0,
+            0.8940327167510986
+          ],
+          "chosen_experts": [
+            2,
+            0
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 315.1062999968417
+      },
+      {
+        "call_id": "call_as8en5wn",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1943_FEA_1",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_1881_PB_12",
+              "score": 0.7526094913482666,
+              "rank": 1,
+              "label": "benign",
+              "subtype": "pathological_benign",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1881_PB_5",
+              "score": 0.7525867223739624,
+              "rank": 2,
+              "label": "benign",
+              "subtype": "pathological_benign",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_FEA_54",
+              "score": 0.7493312954902649,
+              "rank": 3,
+              "label": "atypia",
+              "subtype": "flat_epithelial_atypia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1881_PB_4",
+              "score": 0.7453659176826477,
+              "rank": 4,
+              "label": "benign",
+              "subtype": "pathological_benign",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1949_PB_3",
+              "score": 0.7358986139297485,
+              "rank": 5,
+              "label": "benign",
+              "subtype": "pathological_benign",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1933_PB_14",
+              "score": 0.7357115745544434,
+              "rank": 6,
+              "label": "benign",
+              "subtype": "pathological_benign",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_FEA_33",
+              "score": 0.7307004928588867,
+              "rank": 7,
+              "label": "atypia",
+              "subtype": "flat_epithelial_atypia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1862_FEA_15",
+              "score": 0.726668119430542,
+              "rank": 8,
+              "label": "atypia",
+              "subtype": "flat_epithelial_atypia",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 16.107300005387515
+      },
+      {
+        "call_id": "call_c0si4hyj",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "atypical",
+          "confidence": 0.9,
+          "rationale": "The MoE classifier is highly confident (99.85% atypical) with the phikon_v2_ft expert dominating the gate (89.4%), and 3 of the top-8 neighbors are flat_epithelial_atypia cases, consistent with the atypical call. The benign neighbors are likely visually similar but the classifier's strong expert-weighted signal and FEA-matching neighbors favor atypical.",
+          "evidence_image_ids": [
+            "bracs_BRACS_311_FEA_54",
+            "bracs_BRACS_311_FEA_33",
+            "bracs_BRACS_1862_FEA_15"
+          ],
+          "flag_for_review": false,
+          "dominant_expert": null,
+          "trust_source": "classifier",
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.029300048481673002
+      }
+    ],
+    "step_count": 2,
+    "truncated": false,
+    "started_at": "2026-09-19T19:39:03+00:00",
+    "finished_at": "2026-09-19T19:39:12+00:00"
+  },
+  "error": null
+}

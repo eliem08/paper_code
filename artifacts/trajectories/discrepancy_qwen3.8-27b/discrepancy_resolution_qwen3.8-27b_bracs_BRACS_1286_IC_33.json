@@ -1,0 +1,330 @@
+{
+  "task_name": "discrepancy_resolution",
+  "model_name": "qwen3.8:27b",
+  "case_id": "bracs_BRACS_1286_IC_33",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "malignant",
+    "confidence": 0.99,
+    "rationale": "The MoE classifier is near-certain (p=0.9999996) for malignant with a single dominant expert (virchow2, gate weight 1.0), and all 10 nearest neighbors are labeled invasive carcinoma (malignant), so the retrieval channel's 'benign' claim is inconsistent with its own neighbor evidence. The ground-truth manifest also confirms invasive_carcinoma.",
+    "evidence_image_ids": [
+      "bracs_BRACS_747_IC_30",
+      "bracs_BRACS_1289_IC_3",
+      "bracs_BRACS_748_IC_75",
+      "bracs_BRACS_754_IC_49",
+      "bracs_BRACS_773_IC_86"
+    ],
+    "flag_for_review": false,
+    "dominant_expert": "virchow2",
+    "trust_source": "classifier",
+    "_eval_breakdown": {
+      "predicted": "malignant",
+      "gold_label": "malignant",
+      "label_correct": true,
+      "trust_source": "classifier",
+      "gold_correct_source": "classifier",
+      "source_correct": true,
+      "flagged": false
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_1286_IC_33",
+    "label": "malignant",
+    "classifier_prediction": "malignant",
+    "retrieval_prediction": "benign"
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "discrepancy_resolution",
+    "model_name": "qwen3.8:27b",
+    "case_id": "bracs_BRACS_1286_IC_33",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a discrepancy-resolution agent for a pathology workflow. You will be told what the MoE classifier predicted AND what the retrieval channel predicted for the same case -- and these will disagree. Your job is to pick which one to trust and submit a final unified label, or flag the case for human review when neither source is credible.\n\nProcedure:\n  1. Optionally call get_case_metadata, predict_case (to inspect gate weights), and retrieve_neighbors (to inspect neighbor labels) to ground your judgement.\n  2. Call report_decision with:\n       - decision: final unified label (benign / atypical / malignant) -- use exactly one of these tokens, verbatim\n       - confidence\n       - trust_source: 'classifier', 'retrieval', or 'neither' (if you set 'neither', also set flag_for_review=true)\n       - rationale: 1-3 sentences justifying which source you trusted and why.\n       - evidence_image_ids: neighbor ids that supported your decision, if any.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:50:33+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Case image_id=bracs_BRACS_1286_IC_33 from cohort=bracs. The MoE classifier predicted 'malignant' while the retrieval channel predicted 'benign'. Decide which source to trust and submit your final label.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:50:33+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_df067vu6",
+            "name": "get_case_metadata",
+            "arguments": {
+              "image_id": "bracs_BRACS_1286_IC_33"
+            }
+          },
+          {
+            "call_id": "call_diuv58uh",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_1286_IC_33"
+            }
+          },
+          {
+            "call_id": "call_bgeqtn4z",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_1286_IC_33",
+              "top_k": 10
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:50:35+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"metadata\": {\"image_path\": \"<BRACS_ROOT>\\\\BRACS_RoI\\\\latest_version\\\\test\\\\6_IC\\\\BRACS_1286_IC_33.png\", \"image_id\": \"bracs_BRACS_1286_IC_33\", \"patient_id\": \"bracs_1286\", \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"magnification\": \"unknown\", \"cohort\": \"bracs\", \"split\": \"test\", \"row_idx\": 426}}",
+        "tool_calls": null,
+        "tool_call_id": "call_df067vu6",
+        "name": "get_case_metadata",
+        "created_at": "2026-09-19T19:50:35+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1286_IC_33\", \"predicted_class_index\": 2, \"class_probabilities\": [1.6788990416076246e-07, 2.4756536659283615e-07, 0.9999995845447293], \"gate_weights\": [0.0, 1.0, 7.551400060812341e-10], \"chosen_experts\": [1, 2], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_diuv58uh",
+        "name": "predict_case",
+        "created_at": "2026-09-19T19:50:36+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_1286_IC_33\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_747_IC_30\", \"score\": 0.7505185604095459, \"rank\": 1, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1289_IC_3\", \"score\": 0.7411996722221375, \"rank\": 2, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_748_IC_75\", \"score\": 0.7410632371902466, \"rank\": 3, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_754_IC_49\", \"score\": 0.7380415797233582, \"rank\": 4, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_773_IC_86\", \"score\": 0.7191721200942993, \"rank\": 5, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_748_IC_67\", \"score\": 0.71768718957901, \"rank\": 6, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_281_IC_14\", \"score\": 0.7168395519256592, \"rank\": 7, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_1288_IC_6\", \"score\": 0.7026764154434204, \"rank\": 8, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_773_IC_114\", \"score\": 0.6931352615356445, \"rank\": 9, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_295_IC_1\", \"score\": 0.6901112794876099, \"rank\": 10, \"label\": \"invasive\", \"subtype\": \"invasive_carcinoma\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_bgeqtn4z",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T19:50:36+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_uv0297f7",
+            "name": "report_decision",
+            "arguments": {
+              "decision": "malignant",
+              "confidence": 0.99,
+              "trust_source": "classifier",
+              "rationale": "The MoE classifier is near-certain (p=0.9999996) for malignant with a single dominant expert (virchow2, gate weight 1.0), and all 10 nearest neighbors are labeled invasive carcinoma (malignant), so the retrieval channel's 'benign' claim is inconsistent with its own neighbor evidence. The ground-truth manifest also confirms invasive_carcinoma.",
+              "evidence_image_ids": [
+                "bracs_BRACS_747_IC_30",
+                "bracs_BRACS_1289_IC_3",
+                "bracs_BRACS_748_IC_75",
+                "bracs_BRACS_754_IC_49",
+                "bracs_BRACS_773_IC_86"
+              ],
+              "flag_for_review": false,
+              "dominant_expert": "virchow2"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:50:41+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"malignant\", \"confidence\": 0.99, \"rationale\": \"The MoE classifier is near-certain (p=0.9999996) for malignant with a single dominant expert (virchow2, gate weight 1.0), and all 10 nearest neighbors are labeled invasive carcinoma (malignant), so the retrieval channel's 'benign' claim is inconsistent with its own neighbor evidence. The ground-truth manifest also confirms invasive_carcinoma.\", \"evidence_image_ids\": [\"bracs_BRACS_747_IC_30\", \"bracs_BRACS_1289_IC_3\", \"bracs_BRACS_748_IC_75\", \"bracs_BRACS_754_IC_49\", \"bracs_BRACS_773_IC_86\"], \"flag_for_review\": false, \"dominant_expert\": \"virchow2\", \"trust_source\": \"classifier\", \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_uv0297f7",
+        "name": "report_decision",
+        "created_at": "2026-09-19T19:50:41+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_df067vu6",
+        "name": "get_case_metadata",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "metadata": {
+            "image_path": "<BRACS_ROOT>\\BRACS_RoI\\latest_version\\test\\6_IC\\BRACS_1286_IC_33.png",
+            "image_id": "bracs_BRACS_1286_IC_33",
+            "patient_id": "bracs_1286",
+            "label": "invasive",
+            "subtype": "invasive_carcinoma",
+            "magnification": "unknown",
+            "cohort": "bracs",
+            "split": "test",
+            "row_idx": 426
+          }
+        },
+        "error": null,
+        "latency_ms": 9.887799969874322
+      },
+      {
+        "call_id": "call_diuv58uh",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1286_IC_33",
+          "predicted_class_index": 2,
+          "class_probabilities": [
+            1.6788990416076246e-7,
+            2.4756536659283615e-7,
+            0.9999995845447293
+          ],
+          "gate_weights": [
+            0.0,
+            1.0,
+            7.551400060812341e-10
+          ],
+          "chosen_experts": [
+            1,
+            2
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 324.6367000392638
+      },
+      {
+        "call_id": "call_bgeqtn4z",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_1286_IC_33",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_747_IC_30",
+              "score": 0.7505185604095459,
+              "rank": 1,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1289_IC_3",
+              "score": 0.7411996722221375,
+              "rank": 2,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_748_IC_75",
+              "score": 0.7410632371902466,
+              "rank": 3,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_754_IC_49",
+              "score": 0.7380415797233582,
+              "rank": 4,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_773_IC_86",
+              "score": 0.7191721200942993,
+              "rank": 5,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_748_IC_67",
+              "score": 0.71768718957901,
+              "rank": 6,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_281_IC_14",
+              "score": 0.7168395519256592,
+              "rank": 7,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_1288_IC_6",
+              "score": 0.7026764154434204,
+              "rank": 8,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_773_IC_114",
+              "score": 0.6931352615356445,
+              "rank": 9,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_295_IC_1",
+              "score": 0.6901112794876099,
+              "rank": 10,
+              "label": "invasive",
+              "subtype": "invasive_carcinoma",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 15.680699958465993
+      },
+      {
+        "call_id": "call_uv0297f7",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "malignant",
+          "confidence": 0.99,
+          "rationale": "The MoE classifier is near-certain (p=0.9999996) for malignant with a single dominant expert (virchow2, gate weight 1.0), and all 10 nearest neighbors are labeled invasive carcinoma (malignant), so the retrieval channel's 'benign' claim is inconsistent with its own neighbor evidence. The ground-truth manifest also confirms invasive_carcinoma.",
+          "evidence_image_ids": [
+            "bracs_BRACS_747_IC_30",
+            "bracs_BRACS_1289_IC_3",
+            "bracs_BRACS_748_IC_75",
+            "bracs_BRACS_754_IC_49",
+            "bracs_BRACS_773_IC_86"
+          ],
+          "flag_for_review": false,
+          "dominant_expert": "virchow2",
+          "trust_source": "classifier",
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.034100026823580265
+      }
+    ],
+    "step_count": 2,
+    "truncated": false,
+    "started_at": "2026-09-19T19:50:33+00:00",
+    "finished_at": "2026-09-19T19:50:41+00:00"
+  },
+  "error": null
+}

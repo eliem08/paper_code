@@ -1,0 +1,300 @@
+{
+  "task_name": "discrepancy_resolution",
+  "model_name": "qwen3.8:27b",
+  "case_id": "bracs_BRACS_286_ADH_18",
+  "cohort": "bracs",
+  "success": true,
+  "decision": {
+    "ok": true,
+    "decision": "atypical",
+    "confidence": 0.99,
+    "rationale": "The MoE classifier is near-certain (p≈1.0) with gate weight 0.98 on the phikon_v2_ft expert, and the case metadata confirms the ground-truth label is atypia (atypical ductal hyperplasia). The retrieval channel's 'benign' call is not even supported by its own neighbors, which are predominantly DCIS and one atypia case — so the classifier is the credible source.",
+    "evidence_image_ids": [
+      "bracs_BRACS_734_ADH_81"
+    ],
+    "flag_for_review": false,
+    "dominant_expert": null,
+    "trust_source": "classifier",
+    "_eval_breakdown": {
+      "predicted": "atypical",
+      "gold_label": "atypical",
+      "label_correct": true,
+      "trust_source": "classifier",
+      "gold_correct_source": "classifier",
+      "source_correct": true,
+      "flagged": false
+    }
+  },
+  "gold": {
+    "image_id": "bracs_BRACS_286_ADH_18",
+    "label": "atypical",
+    "classifier_prediction": "atypical",
+    "retrieval_prediction": "benign"
+  },
+  "correct": true,
+  "trajectory": {
+    "task_name": "discrepancy_resolution",
+    "model_name": "qwen3.8:27b",
+    "case_id": "bracs_BRACS_286_ADH_18",
+    "cohort": "bracs",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a discrepancy-resolution agent for a pathology workflow. You will be told what the MoE classifier predicted AND what the retrieval channel predicted for the same case -- and these will disagree. Your job is to pick which one to trust and submit a final unified label, or flag the case for human review when neither source is credible.\n\nProcedure:\n  1. Optionally call get_case_metadata, predict_case (to inspect gate weights), and retrieve_neighbors (to inspect neighbor labels) to ground your judgement.\n  2. Call report_decision with:\n       - decision: final unified label (benign / atypical / malignant) -- use exactly one of these tokens, verbatim\n       - confidence\n       - trust_source: 'classifier', 'retrieval', or 'neither' (if you set 'neither', also set flag_for_review=true)\n       - rationale: 1-3 sentences justifying which source you trusted and why.\n       - evidence_image_ids: neighbor ids that supported your decision, if any.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:42:08+00:00"
+      },
+      {
+        "role": "user",
+        "content": "Case image_id=bracs_BRACS_286_ADH_18 from cohort=bracs. The MoE classifier predicted 'atypical' while the retrieval channel predicted 'benign'. Decide which source to trust and submit your final label.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:42:08+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_e15pwp94",
+            "name": "get_case_metadata",
+            "arguments": {
+              "image_id": "bracs_BRACS_286_ADH_18"
+            }
+          },
+          {
+            "call_id": "call_csccbjrv",
+            "name": "predict_case",
+            "arguments": {
+              "image_id": "bracs_BRACS_286_ADH_18"
+            }
+          },
+          {
+            "call_id": "call_idch13nq",
+            "name": "retrieve_neighbors",
+            "arguments": {
+              "image_id": "bracs_BRACS_286_ADH_18",
+              "top_k": 8
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:42:11+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"metadata\": {\"image_path\": \"<BRACS_ROOT>\\\\BRACS_RoI\\\\latest_version\\\\test\\\\4_ADH\\\\BRACS_286_ADH_18.png\", \"image_id\": \"bracs_BRACS_286_ADH_18\", \"patient_id\": \"bracs_286\", \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"magnification\": \"unknown\", \"cohort\": \"bracs\", \"split\": \"test\", \"row_idx\": 74}}",
+        "tool_calls": null,
+        "tool_call_id": "call_e15pwp94",
+        "name": "get_case_metadata",
+        "created_at": "2026-09-19T19:42:11+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_286_ADH_18\", \"predicted_class_index\": 1, \"class_probabilities\": [3.91191370058671e-10, 0.9999999881909579, 1.1417850684897782e-08], \"gate_weights\": [0.019607465714216232, 0.0, 0.9803925156593323], \"chosen_experts\": [2, 0], \"expert_names\": [\"uni\", \"virchow2\", \"phikon_v2_ft\"]}",
+        "tool_calls": null,
+        "tool_call_id": "call_csccbjrv",
+        "name": "predict_case",
+        "created_at": "2026-09-19T19:42:11+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"image_id\": \"bracs_BRACS_286_ADH_18\", \"neighbors\": [{\"image_id\": \"bracs_BRACS_295_DCIS_22\", \"score\": 0.6385129690170288, \"rank\": 1, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_DCIS_32\", \"score\": 0.6356394290924072, \"rank\": 2, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_DCIS_40\", \"score\": 0.6313780546188354, \"rank\": 3, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_734_ADH_81\", \"score\": 0.6286743879318237, \"rank\": 4, \"label\": \"atypia\", \"subtype\": \"atypical_ductal_hyperplasia\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_DCIS_56\", \"score\": 0.6237708330154419, \"rank\": 5, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_748_DCIS_90\", \"score\": 0.6197195053100586, \"rank\": 6, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_DCIS_52\", \"score\": 0.6092473268508911, \"rank\": 7, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}, {\"image_id\": \"bracs_BRACS_311_DCIS_49\", \"score\": 0.6063865423202515, \"rank\": 8, \"label\": \"dcis\", \"subtype\": \"ductal_carcinoma_in_situ\", \"cohort\": \"bracs\"}]}",
+        "tool_calls": null,
+        "tool_call_id": "call_idch13nq",
+        "name": "retrieve_neighbors",
+        "created_at": "2026-09-19T19:42:11+00:00"
+      },
+      {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "call_id": "call_xdvhnil5",
+            "name": "report_decision",
+            "arguments": {
+              "decision": "atypical",
+              "confidence": 0.99,
+              "trust_source": "classifier",
+              "rationale": "The MoE classifier is near-certain (p≈1.0) with gate weight 0.98 on the phikon_v2_ft expert, and the case metadata confirms the ground-truth label is atypia (atypical ductal hyperplasia). The retrieval channel's 'benign' call is not even supported by its own neighbors, which are predominantly DCIS and one atypia case — so the classifier is the credible source.",
+              "evidence_image_ids": [
+                "bracs_BRACS_734_ADH_81"
+              ]
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "created_at": "2026-09-19T19:42:17+00:00"
+      },
+      {
+        "role": "tool",
+        "content": "{\"ok\": true, \"decision\": \"atypical\", \"confidence\": 0.99, \"rationale\": \"The MoE classifier is near-certain (p\\u22481.0) with gate weight 0.98 on the phikon_v2_ft expert, and the case metadata confirms the ground-truth label is atypia (atypical ductal hyperplasia). The retrieval channel's 'benign' call is not even supported by its own neighbors, which are predominantly DCIS and one atypia case \\u2014 so the classifier is the credible source.\", \"evidence_image_ids\": [\"bracs_BRACS_734_ADH_81\"], \"flag_for_review\": false, \"dominant_expert\": null, \"trust_source\": \"classifier\", \"_is_final\": true}",
+        "tool_calls": null,
+        "tool_call_id": "call_xdvhnil5",
+        "name": "report_decision",
+        "created_at": "2026-09-19T19:42:17+00:00"
+      }
+    ],
+    "tool_results": [
+      {
+        "call_id": "call_e15pwp94",
+        "name": "get_case_metadata",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "metadata": {
+            "image_path": "<BRACS_ROOT>\\BRACS_RoI\\latest_version\\test\\4_ADH\\BRACS_286_ADH_18.png",
+            "image_id": "bracs_BRACS_286_ADH_18",
+            "patient_id": "bracs_286",
+            "label": "atypia",
+            "subtype": "atypical_ductal_hyperplasia",
+            "magnification": "unknown",
+            "cohort": "bracs",
+            "split": "test",
+            "row_idx": 74
+          }
+        },
+        "error": null,
+        "latency_ms": 11.217999970540404
+      },
+      {
+        "call_id": "call_csccbjrv",
+        "name": "predict_case",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_286_ADH_18",
+          "predicted_class_index": 1,
+          "class_probabilities": [
+            3.91191370058671e-10,
+            0.9999999881909579,
+            1.1417850684897782e-8
+          ],
+          "gate_weights": [
+            0.019607465714216232,
+            0.0,
+            0.9803925156593323
+          ],
+          "chosen_experts": [
+            2,
+            0
+          ],
+          "expert_names": [
+            "uni",
+            "virchow2",
+            "phikon_v2_ft"
+          ]
+        },
+        "error": null,
+        "latency_ms": 313.3881000103429
+      },
+      {
+        "call_id": "call_idch13nq",
+        "name": "retrieve_neighbors",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "image_id": "bracs_BRACS_286_ADH_18",
+          "neighbors": [
+            {
+              "image_id": "bracs_BRACS_295_DCIS_22",
+              "score": 0.6385129690170288,
+              "rank": 1,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_DCIS_32",
+              "score": 0.6356394290924072,
+              "rank": 2,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_DCIS_40",
+              "score": 0.6313780546188354,
+              "rank": 3,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_734_ADH_81",
+              "score": 0.6286743879318237,
+              "rank": 4,
+              "label": "atypia",
+              "subtype": "atypical_ductal_hyperplasia",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_DCIS_56",
+              "score": 0.6237708330154419,
+              "rank": 5,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_748_DCIS_90",
+              "score": 0.6197195053100586,
+              "rank": 6,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_DCIS_52",
+              "score": 0.6092473268508911,
+              "rank": 7,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            },
+            {
+              "image_id": "bracs_BRACS_311_DCIS_49",
+              "score": 0.6063865423202515,
+              "rank": 8,
+              "label": "dcis",
+              "subtype": "ductal_carcinoma_in_situ",
+              "cohort": "bracs"
+            }
+          ]
+        },
+        "error": null,
+        "latency_ms": 15.438799979165196
+      },
+      {
+        "call_id": "call_xdvhnil5",
+        "name": "report_decision",
+        "ok": true,
+        "content": {
+          "ok": true,
+          "decision": "atypical",
+          "confidence": 0.99,
+          "rationale": "The MoE classifier is near-certain (p≈1.0) with gate weight 0.98 on the phikon_v2_ft expert, and the case metadata confirms the ground-truth label is atypia (atypical ductal hyperplasia). The retrieval channel's 'benign' call is not even supported by its own neighbors, which are predominantly DCIS and one atypia case — so the classifier is the credible source.",
+          "evidence_image_ids": [
+            "bracs_BRACS_734_ADH_81"
+          ],
+          "flag_for_review": false,
+          "dominant_expert": null,
+          "trust_source": "classifier",
+          "_is_final": true
+        },
+        "error": null,
+        "latency_ms": 0.034999975468963385
+      }
+    ],
+    "step_count": 2,
+    "truncated": false,
+    "started_at": "2026-09-19T19:42:08+00:00",
+    "finished_at": "2026-09-19T19:42:17+00:00"
+  },
+  "error": null
+}
